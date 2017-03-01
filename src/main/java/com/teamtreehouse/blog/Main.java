@@ -46,36 +46,73 @@ public class Main {
     blogEntry3.addTag(new Tag("Machine Powerful"));
     blogDao.addEntry(blogEntry3);
 
+    before((req, res) -> {
+      if (req.cookie("username") != null) {
+        req.attribute("username", req.cookie("username"));
+      }
+    });
 
-    // TODO: Check cookie for specific word
+
     before("/new", (req,res) -> {
-      if (req.cookie("username") == null || !req.cookie("username").equals("admin")) {
+      if (req.attribute("username") == null || !req.attribute("username").equals("admin")) {
         res.redirect("/password");
         halt();
       }
     });
 
     get("/", (req,res) -> {
-      return new ModelAndView(null, "index.hbs");
+      Map<String, Object> model = new HashMap<>();
+      model.put("blogEntry", blogDao.findAllEntries());
+
+      return new ModelAndView(model, "index.hbs");
     }, new HandlebarsTemplateEngine());
 
-    // TODO:SG - Enable selecting specific elements and displaying it with proper links
-    get("/detail", (req, res) -> {
-      return new ModelAndView(null, "detail.hbs");
+    get("/detail/:slug", (req, res) -> {
+      Map<String, Object> model = new HashMap<>();
+      model.put("blogEntry", blogDao.findEntryBySlug(req.params("slug")));
+      return new ModelAndView(model, "detail.hbs");
     }, new HandlebarsTemplateEngine());
 
 
-    // TODO:SG - Make it store new post
     get("/new", (req, res) ->{
+      Map<String, String> model = new HashMap<>();
+
       return new ModelAndView(null, "new.hbs");
     }, new HandlebarsTemplateEngine());
 
-    //TODO:SG - Redesign edit to make it not static
-    get("/edit", (req,res) -> {
-      return new ModelAndView(null, "edit.hbs");
+    post("/new", (req, res) -> {
+      String title = req.queryParams("title");
+      String author = req.queryParams("author");
+      String entry = req.queryParams("entry");
+
+      BlogEntry blogEntry = new BlogEntry(title, author, entry);
+      blogDao.addEntry(blogEntry);
+
+      res.redirect("/");
+      return null;
+    }, new HandlebarsTemplateEngine());
+
+    get("details/edit/:slug", (req, res) -> {
+      Map<String, Object> model = new HashMap<>();
+      BlogEntry blogEntry = blogDao.findEntryBySlug(req.params(":slug"));
+
+      model.put("blogEntry", blogEntry);
+      return new ModelAndView(model, "edit.hbs");
+    }, new HandlebarsTemplateEngine());
+
+    post("details/edit/:slug", (req, res) -> {
+      BlogEntry blogEntry = blogDao.findEntryBySlug(req.params(":slug"));
+      String title = req.queryParams("title");
+      String author = req.queryParams("author");
+      String entry = req.queryParams("entry");
+
+      blogEntry.editEntry(title, author, entry);
+      res.redirect("/details" + blogEntry.getSlug());
+      return null;
     }, new HandlebarsTemplateEngine());
 
     get("/password", (req, res) -> {
+
       return new ModelAndView(null, "password.hbs");
     }, new HandlebarsTemplateEngine());
 

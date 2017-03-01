@@ -11,7 +11,7 @@ public class Comment {
   public Comment(String author, String comment) {
     this.author = author;
     this.comment = comment;
-    this.date = getDate();
+    date = setDate();
   }
 
   public String getAuthor() {
@@ -20,6 +20,10 @@ public class Comment {
 
   public String getComment() {
     return comment;
+  }
+
+  public String getDate() {
+    return date;
   }
 
   @Override
@@ -50,7 +54,7 @@ public class Comment {
     return result;
   }
 
-  private String getDate() {
+  private String setDate() {
     Date date = new Date();
     SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
     String dateString = format.format(date);
