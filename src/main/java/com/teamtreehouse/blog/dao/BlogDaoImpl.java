@@ -8,10 +8,10 @@ import java.util.List;
 
 public class BlogDaoImpl implements BlogDao {
 
-  List<BlogEntry> blogEntries;
+  private List<BlogEntry> blogEntries;
 
   public BlogDaoImpl() {
-    this.blogEntries = new ArrayList<>();
+    blogEntries = new ArrayList<>();
   }
 
   @Override

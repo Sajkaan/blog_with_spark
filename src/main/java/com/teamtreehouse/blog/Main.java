@@ -73,10 +73,20 @@ public class Main {
       return new ModelAndView(model, "detail.hbs");
     }, new HandlebarsTemplateEngine());
 
+    post("/detail/:slug/comment", (req, res) -> {
+      BlogEntry blogEntry = blogDao.findEntryBySlug(req.params("slug"));
+      String author = req.queryParams("author");
+      String comment = req.queryParams("comment");
+
+      if (author.equals("")) {
+        author = "Unknown";
+      }
+      blogEntry.addComment(new Comment(author, comment));
+      res.redirect("/detail/" + blogEntry.getSlug());
+      return null;
+    });
 
     get("/new", (req, res) ->{
-      Map<String, String> model = new HashMap<>();
-
       return new ModelAndView(null, "new.hbs");
     }, new HandlebarsTemplateEngine());
 
@@ -90,9 +100,9 @@ public class Main {
 
       res.redirect("/");
       return null;
-    }, new HandlebarsTemplateEngine());
+    });
 
-    get("details/edit/:slug", (req, res) -> {
+    get("detail/:slug/edit", (req, res) -> {
       Map<String, Object> model = new HashMap<>();
       BlogEntry blogEntry = blogDao.findEntryBySlug(req.params(":slug"));
 
@@ -100,16 +110,16 @@ public class Main {
       return new ModelAndView(model, "edit.hbs");
     }, new HandlebarsTemplateEngine());
 
-    post("details/edit/:slug", (req, res) -> {
+    post("detail/:slug/edit", (req, res) -> {
       BlogEntry blogEntry = blogDao.findEntryBySlug(req.params(":slug"));
       String title = req.queryParams("title");
       String author = req.queryParams("author");
       String entry = req.queryParams("entry");
 
       blogEntry.editEntry(title, author, entry);
-      res.redirect("/details" + blogEntry.getSlug());
+      res.redirect("/");
       return null;
-    }, new HandlebarsTemplateEngine());
+    });
 
     get("/password", (req, res) -> {
 

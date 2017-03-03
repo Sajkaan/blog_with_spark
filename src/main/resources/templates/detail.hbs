@@ -7,7 +7,7 @@
                     <time>{{ blogEntry.date}}</time>
                     <div class="entry">
                         <p> {{ blogEntry.blogPost }}</p>
-                        <p><a class="link" href="details/edit/{{ blogEntry.slug }}">Edit Entry</a>
+                        <p><a class="link" href="/detail/{{ blogEntry.slug }}/edit">Edit Entry</a>
                         </p>
                     </div>
                 </article>
@@ -38,9 +38,9 @@
             </div>
 
             <div class="new-comment">
-                <form action="/details/{{ slug }}/comment" method="post">
+                <form action="/detail/{{ blogEntry.slug }}/comment" method="post">
                     <label for="name"> Name</label>
-                    <input type="text" name="name"><br>
+                    <input type="text" name="author"><br>
                     <label for="comment">Comment</label>
                     <textarea rows="5" name="comment"></textarea>
                     <input type="submit" value="Post Comment" class="button">
