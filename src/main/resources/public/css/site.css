@@ -171,6 +171,7 @@ a.link {
 .edit-entry h2,
 .new-entry h2,
 .password h2 {
+        color:brown;
         margin-top: 10px;
 	margin-bottom: 35px;
 }
@@ -183,6 +184,7 @@ a.link {
 }
 .entry-list article h2 {
 	margin-bottom: 8px;
+	color:blueviolet;
 }
 .entry-list article a {
 	text-decoration: none;
@@ -205,6 +207,7 @@ a.link {
 .entry p {
 	font-size: 18px;
 	margin-bottom: 40px;
+	color:darkred;
 }
 .entry-comments {
 	width:60%;
@@ -224,6 +227,7 @@ a.link {
 .entry-comments h2 {
 	border-bottom: 1px solid #c1c1c1;
 	padding-bottom: 3px;
+	color:blueviolet;
 }
 .comment {
 	border-top: 1px solid #c1c1c1;
@@ -260,6 +264,7 @@ a.link {
 	margin: 0 auto;
 }
 .entry-tags h2 {
+        color:darkviolet;
 	padding-bottom: 10px;
 }
 
@@ -277,11 +282,12 @@ a.link {
 }
 form label {
 	display: block;
-	font-family: 'Noto Sans', sans-serif;
+	font-family: 'initial', serif;
 	font-weight: bold;
 	text-transform: uppercase;
 	font-size: 14px;
 	margin-bottom: 5px;
+	color:saddlebrown;
 }
 form input[type=text],
 form input[type=password],
