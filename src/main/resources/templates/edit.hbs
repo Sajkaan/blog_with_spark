@@ -16,6 +16,24 @@
                     <input type="submit" value="Save Entry" class="button">
                     <a href="/" class="button button-secondary">Cancel</a>
                 </form>
+
+                <div class="container">
+                    <form class="new-tag" action="/detail/{{ blogEntry.slug }}/edit/tag"
+                          method="post">
+                        <h2>Add/Edit Tags</h2>
+                        <input type="text" name="tag"
+                               value="{{#each blogEntry.tags }}{{ this.tag }}{{/each}}"><br>
+                        <label for="tag">Tags</label>
+                        <input type="submit" value="Add Tag" class="button-tag">
+                    </form>
+                </div>
+
+                <div class="container">
+                    <form class="delete" action="/detail/{{ blogEntry.slug }}/edit/delete"
+                          method="post">
+                        <input type="submit" value="Delete Entry" class="button-delete">
+                    </form>
+                </div>
             </div>
         </div>
     </section>

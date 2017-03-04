@@ -15,9 +15,12 @@ import com.teamtreehouse.blog.model.Tag;
 import java.util.HashMap;
 import java.util.Map;
 import spark.ModelAndView;
+import spark.Request;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
 public class Main {
+
+  private static final String FLASH_MESSAGE_KEY = "flash_message";
 
   public static void main(String[] args) {
 
@@ -52,19 +55,48 @@ public class Main {
       }
     });
 
+    passwordProtection("/new");
+    passwordProtection("/detail/:slug/edit");
 
-    before("/new", (req,res) -> {
-      if (req.attribute("username") == null || !req.attribute("username").equals("admin")) {
-        res.redirect("/password");
-        halt();
-      }
-    });
-
-    get("/", (req,res) -> {
+    get("/", (req, res) -> {
       Map<String, Object> model = new HashMap<>();
       model.put("blogEntry", blogDao.findAllEntries());
-
+      model.put("flashMessage", captureFlashMessage(req));
       return new ModelAndView(model, "index.hbs");
+    }, new HandlebarsTemplateEngine());
+
+    get("/new", (req, res) -> {
+      return new ModelAndView(null, "new.hbs");
+    }, new HandlebarsTemplateEngine());
+
+    post("/new", (req, res) -> {
+      String title = req.queryParams("title");
+      String author = req.queryParams("author");
+      String entry = req.queryParams("entry");
+
+      BlogEntry blogEntry = new BlogEntry(title, author, entry);
+      blogDao.addEntry(blogEntry);
+      setFlashMessage(req, "New entry added.");
+      res.redirect("/");
+      return null;
+    });
+
+    get("/password", (req, res) -> {
+      Map<String, String> model = new HashMap<>();
+
+      model.put("flashMessage", captureFlashMessage(req));
+      return new ModelAndView(model, "password.hbs");
+    }, new HandlebarsTemplateEngine());
+
+    post("/password", (req, res) -> {
+      Map<String, String> model = new HashMap<>();
+      String username = req.queryParams("username");
+      model.put("username", username);
+
+      res.cookie("username", username);
+      res.redirect("/new");
+
+      return new ModelAndView(model, "new.hbs");
     }, new HandlebarsTemplateEngine());
 
     get("/detail/:slug", (req, res) -> {
@@ -86,22 +118,6 @@ public class Main {
       return null;
     });
 
-    get("/new", (req, res) ->{
-      return new ModelAndView(null, "new.hbs");
-    }, new HandlebarsTemplateEngine());
-
-    post("/new", (req, res) -> {
-      String title = req.queryParams("title");
-      String author = req.queryParams("author");
-      String entry = req.queryParams("entry");
-
-      BlogEntry blogEntry = new BlogEntry(title, author, entry);
-      blogDao.addEntry(blogEntry);
-
-      res.redirect("/");
-      return null;
-    });
-
     get("detail/:slug/edit", (req, res) -> {
       Map<String, Object> model = new HashMap<>();
       BlogEntry blogEntry = blogDao.findEntryBySlug(req.params(":slug"));
@@ -115,27 +131,66 @@ public class Main {
       String title = req.queryParams("title");
       String author = req.queryParams("author");
       String entry = req.queryParams("entry");
-
+      setFlashMessage(req, "Entry updated");
       blogEntry.editEntry(title, author, entry);
       res.redirect("/");
       return null;
     });
 
-    get("/password", (req, res) -> {
+    post("detail/:slug/edit/delete", (req, res) -> {
+      BlogEntry blogEntry = blogDao.findEntryBySlug(req.params("slug"));
+      blogDao.deleteEntry(blogEntry);
+      setFlashMessage(req, "Entry deleted.");
+      res.redirect("/");
+      return null;
+    });
 
-      return new ModelAndView(null, "password.hbs");
-    }, new HandlebarsTemplateEngine());
+    post("detail/:slug/edit/tag", (req, res) -> {
+      BlogEntry blogEntry = blogDao.findEntryBySlug(req.params("slug"));
+      String tag = req.queryParams("tag");
+      blogEntry.addTag(new Tag(tag));
+      setFlashMessage(req, "Tag added");
+      res.redirect("/");
+      return null;
+    });
+  }
 
-    post("/password", (req,res) -> {
-      Map<String, String> model= new HashMap<>();
-      String username = req.queryParams("username");
-      model.put("username", username);
+  private static void passwordProtection(String path) {
+    before(path, (req, res) -> {
+      if (req.attribute("username") == null) {
+        setFlashMessage(req, "You must be signed in.");
+        res.redirect("/password");
+        halt();
+      }
 
-      res.cookie("username", username);
-      res.redirect("/new");
+      if (!req.attribute("username").equals("admin")) {
+        setFlashMessage(req, "Incorrect username.");
+        res.redirect("/password");
+        halt();
+      }
+    });
+  }
 
-      return new ModelAndView(model, "new.hbs");
-    }, new HandlebarsTemplateEngine());
+  private static void setFlashMessage(Request request, String message) {
+    request.session().attribute(FLASH_MESSAGE_KEY, message);
+  }
+
+  private static String getFlashMessage(Request request) {
+    if (request.session(false) == null) {
+      return null;
+    }
+    if (!request.session().attributes().contains(FLASH_MESSAGE_KEY)) {
+      return null;
+    }
+    return (String) request.session().attribute(FLASH_MESSAGE_KEY);
+  }
+
+  private static String captureFlashMessage(Request request) {
+    String message = getFlashMessage(request);
+    if (message != null) {
+      request.session().removeAttribute(FLASH_MESSAGE_KEY);
+    }
+    return message;
   }
 
 }

@@ -14,18 +14,16 @@
             </div>
         </div>
     </section>
-
-    <div class="container">
+    <section class="entry-comments">
         <div class="entry-tags">
             <h2>Tags</h2>
             <div class="tag">
                 {{#each blogEntry.tagSet}}
-                    <p> #{{ this.tag }} </p>
+                    <p>{{ this.tag }} </p>
                 {{/each}}
             </div>
         </div>
-    </div>
-
+    </section>
     <section class="entry-comments">
         <div class="container">
             <h2>Comments</h2>
