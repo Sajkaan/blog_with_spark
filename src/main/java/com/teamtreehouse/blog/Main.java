@@ -111,7 +111,7 @@ public class Main {
       String comment = req.queryParams("comment");
 
       if (author.equals("")) {
-        author = "Unknown";
+        author = "Anonymous";
       }
       blogEntry.addComment(new Comment(author, comment));
       res.redirect("/detail/" + blogEntry.getSlug());
