@@ -5,12 +5,14 @@ import com.teamtreehouse.blog.model.BlogEntry;
 import java.util.List;
 
 public interface BlogDao {
-    boolean addEntry(BlogEntry blogEntry);
 
-    void deleteEntry(BlogEntry blogEntry);
+    int addEntry(BlogEntry blogEntry);
 
     List<BlogEntry> findAllEntries();
-    BlogEntry findEntryBySlug(String slug);
+
+    BlogEntry findEntryById(int id);
+
+    void removeEntryById(int id);
 
 
 }

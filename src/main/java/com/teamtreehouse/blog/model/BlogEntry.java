@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class BlogEntry {
 
-    private String slug;
+    private int id;
     private String title;
     private String author;
     private String blogPost;
@@ -30,8 +30,6 @@ public class BlogEntry {
         this.blogPost = blogPost;
         date = setDate();
 
-        Slugify slugify = new Slugify();
-        slug = slugify.slugify(title);
     }
 
     public void editEntry(String title, String author, String blogPost) {
@@ -42,40 +40,60 @@ public class BlogEntry {
 
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getAuthor() {
         return author;
     }
 
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
     public String getBlogPost() {
         return blogPost;
+    }
+
+    public void setBlogPost(String blogPost) {
+        this.blogPost = blogPost;
     }
 
     public String getDate() {
         return date;
     }
 
-    public String getSlug() {
-        return slug;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public List<Comment> getCommentList() {
         return commentList;
     }
 
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
+    }
+
     public Set<Tag> getTagSet() {
         return tagSet;
     }
 
-    public boolean addComment(Comment comment) {
-        return commentList.add(comment);
-    }
-
-    public boolean addTag(Tag tag) {
-        return tagSet.add(tag);
+    public void setTagSet(Set<Tag> tagSet) {
+        this.tagSet = tagSet;
     }
 
     @Override
