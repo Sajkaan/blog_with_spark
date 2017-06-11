@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface BlogDao {
 
-    int addEntry(BlogEntry blogEntry) throws DaoException;
+    void addEntry(BlogEntry blogEntry) throws DaoException;
 
     List<BlogEntry> findAllEntries();
 
     BlogEntry findEntryById(int id);
 
-    void removeEntryById(int id);
+    void removeEntryById(int id) throws DaoException;
 
 
 }

@@ -18,7 +18,7 @@ public class Sql2oBlogDao implements BlogDao {
 
 
     @Override
-    public int addEntry(BlogEntry blogEntry) throws DaoException {
+    public void addEntry(BlogEntry blogEntry) throws DaoException {
         String sql = "INSERT INTO blog_entry (title, author, blogPost) VALUES (:title, :author, : blogPost)";
         try (Connection connection = sql2o.open()){
             int id = (int)connection.createQuery(sql)
@@ -34,16 +34,28 @@ public class Sql2oBlogDao implements BlogDao {
 
     @Override
     public List<BlogEntry> findAllEntries() {
-        return null;
+        try (Connection connection = sql2o.open()){
+            return connection.createQuery("SELECT * FROM blogEntry")
+                    .executeAndFetch(BlogEntry.class);
+        }
     }
 
     @Override
     public BlogEntry findEntryById(int id) {
-        return null;
+        try (Connection connection = sql2o.open()) {
+            return connection.createQuery("SELECT * FORM blogEntry WHERE id = :id")
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(BlogEntry.class);
+        }
     }
 
     @Override
-    public void removeEntryById(int id) {
-
+    public void removeEntryById(int id) throws DaoException {
+        try (Connection connection = sql2o.open()){
+            String sql = String.format("DELETE * FROM blogEntry WHERE id = %d", id);
+            connection.createQuery(sql).executeUpdate();
+        } catch (Sql2oException ex) {
+            throw new DaoException(ex, "Problem removing entry");
+        }
     }
 }

@@ -7,7 +7,6 @@ import static spark.Spark.post;
 import static spark.Spark.staticFileLocation;
 
 import com.teamtreehouse.blog.dao.BlogDao;
-import com.teamtreehouse.blog.dao.BlogDaoImpl;
 import com.teamtreehouse.blog.model.BlogEntry;
 import com.teamtreehouse.blog.model.Comment;
 import com.teamtreehouse.blog.model.Tag;
@@ -26,28 +25,7 @@ public class Main {
 
     staticFileLocation("/public");
 
-    BlogDao blogDao = new BlogDaoImpl();
 
-    BlogEntry blogEntry1 = new BlogEntry("NOT THAT INTER YOU",
-        "Safet Garic",
-        "ANTONIO CONTE has been linked with a shock Chelsea exit in favour of a return to Italy.");
-    blogEntry1.addComment(new Comment("Jose Mourinho", "Hahahhahhahha."));
-    blogEntry1.addTag(new Tag("chelsea coach byebye"));
-    blogDao.addEntry(blogEntry1);
-
-    BlogEntry blogEntry2 = new BlogEntry("N'Golo Kante",
-        "Eden Hazard",
-        "He has been the biggest difference in the title race - and Leicester's demise has shown how important he was to them.");
-    blogEntry2.addComment(new Comment("Antonio Conte", "Simply unplayable."));
-    blogEntry2.addTag(new Tag("midfielder chelsea"));
-    blogDao.addEntry(blogEntry2);
-
-    BlogEntry blogEntry3 = new BlogEntry("TAKING THE VIC",
-        "Senad Felix",
-        "Moses is now a first team regular at Stamford Bridge after being shipped out on loan earlier in his Blues career");
-    blogEntry3.addComment(new Comment("Juan Mata", "Great lad."));
-    blogEntry3.addTag(new Tag("Machine Powerful"));
-    blogDao.addEntry(blogEntry3);
 
     before((req, res) -> {
       if (req.cookie("username") != null) {
