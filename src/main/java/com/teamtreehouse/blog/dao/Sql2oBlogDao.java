@@ -1,6 +1,8 @@
 package com.teamtreehouse.blog.dao;
 
+import com.teamtreehouse.blog.exceptions.DaoException;
 import com.teamtreehouse.blog.model.BlogEntry;
+import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
 
@@ -16,9 +18,14 @@ public class Sql2oBlogDao implements BlogDao {
 
 
     @Override
-    public int addEntry(BlogEntry blogEntry) {
+    public int addEntry(BlogEntry blogEntry) throws DaoException {
         String sql = "INSERT INTO blog_entry (title, author, blogPost) VALUES (:title, :author, : blogPost)";
-        try {
+        try (Connection connection = sql2o.open()){
+            int id = (int)connection.createQuery(sql)
+                    .bind(blogEntry)
+                    .executeUpdate()
+                    .getKey();
+            blogEntry.setId(id);
 
         } catch (Sql2oException ex) {
             throw new DaoException(ex, "Problem adding entry");
