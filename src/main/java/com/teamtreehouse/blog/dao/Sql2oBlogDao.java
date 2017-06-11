@@ -16,7 +16,7 @@ public class Sql2oBlogDao implements BlogDao {
 
     @Override
     public int addEntry(BlogEntry blogEntry) {
-
+        String sql = "";
     }
 
     @Override
