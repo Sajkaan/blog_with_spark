@@ -7,12 +7,17 @@ import static spark.Spark.post;
 import static spark.Spark.staticFileLocation;
 
 import com.teamtreehouse.blog.dao.BlogDao;
+import com.teamtreehouse.blog.dao.CommentDao;
+import com.teamtreehouse.blog.dao.Sql2oBlogDao;
+import com.teamtreehouse.blog.dao.Sql2oCommentDao;
 import com.teamtreehouse.blog.model.BlogEntry;
 import com.teamtreehouse.blog.model.Comment;
 import com.teamtreehouse.blog.model.Tag;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.sql2o.Sql2o;
 import spark.ModelAndView;
 import spark.Request;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -25,6 +30,14 @@ public class Main {
 
     staticFileLocation("/public");
 
+    String datasource = "jdbc:h2:~/IdeaProjects/blog_with_spark/data/blog.db";
+
+    Sql2o sql2o = new Sql2o(
+            String.format("%s;INIT=RUNSCRIPT from 'classpath:db/init.sql'", datasource),
+            "", ""
+    );
+    BlogDao blogDao = new Sql2oBlogDao(sql2o);
+    CommentDao commentDao = new Sql2oCommentDao(sql2o);
 
 
     before((req, res) -> {
@@ -33,8 +46,8 @@ public class Main {
       }
     });
 
-    passwordProtection("/new");
-    passwordProtection("/detail/:slug/edit");
+/*    passwordProtection("/new");
+    passwordProtection("/detail/:slug/edit");*/
 
     get("/", (req, res) -> {
       Map<String, Object> model = new HashMap<>();
@@ -59,7 +72,7 @@ public class Main {
       return null;
     });
 
-    get("/password", (req, res) -> {
+    /*get("/password", (req, res) -> {
       Map<String, String> model = new HashMap<>();
 
       model.put("flashMessage", captureFlashMessage(req));
@@ -146,7 +159,7 @@ public class Main {
         res.redirect("/password");
         halt();
       }
-    });
+    });*/
   }
 
   private static void setFlashMessage(Request request, String message) {

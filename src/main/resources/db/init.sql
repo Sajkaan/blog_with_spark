@@ -11,6 +11,6 @@ CREATE TABLE IF NOT EXISTS comments (
     entry_id INTEGER,
     author VARCHAR,
     author_comment VARCHAR,
-    date DATETIME
-    FOREIGN KEY (entry_id) REFERENCE public.blogEntry(id)
+    date DATETIME,
+    FOREIGN KEY (entry_id) REFERENCES PUBLIC.blogEntry(id) ON DELETE CASCADE
 );
