@@ -4,14 +4,29 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Comment {
+  private int id;
+  private int entryId;
   private String author;
   private String comment;
   private String date;
 
-  public Comment(String author, String comment) {
+  public Comment(int entryId, String author, String comment) {
+    this.entryId = entryId;
     this.author = author;
     this.comment = comment;
     date = setDate();
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public int getEntryId() {
+    return entryId;
   }
 
   public String getAuthor() {
@@ -20,10 +35,6 @@ public class Comment {
 
   public String getComment() {
     return comment;
-  }
-
-  public String getDate() {
-    return date;
   }
 
   @Override
