@@ -2,6 +2,7 @@ package com.teamtreehouse.blog.dao;
 
 import com.teamtreehouse.blog.model.BlogEntry;
 import org.sql2o.Sql2o;
+import org.sql2o.Sql2oException;
 
 import java.util.List;
 
@@ -16,7 +17,12 @@ public class Sql2oBlogDao implements BlogDao {
 
     @Override
     public int addEntry(BlogEntry blogEntry) {
-        String sql = "";
+        String sql = "INSERT INTO blog_entry (title, author, blogPost) VALUES (:title, :author, : blogPost)";
+        try {
+
+        } catch (Sql2oException ex) {
+            throw new DaoException(ex, "Problem adding entry");
+        }
     }
 
     @Override
