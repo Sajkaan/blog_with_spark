@@ -21,20 +21,17 @@ public class BlogEntry {
     private Set<Tag> tagSet;
 
     public BlogEntry(String title, String author, String blogPost) {
-
         this.title = title;
         this.author = author;
         this.blogPost = blogPost;
         date = setDate();
-
     }
 
     public void editEntry(String title, String author, String blogPost) {
-        date = setDate();
         this.title = title;
         this.author = author;
         this.blogPost = blogPost;
-
+        date = setDate();
     }
 
     public int getId() {
