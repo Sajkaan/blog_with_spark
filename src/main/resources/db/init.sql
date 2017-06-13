@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS blogEntry (
     title VARCHAR,
     author VARCHAR,
     blogPost VARCHAR,
-    date DATETIME
+    date VARCHAR
 );
 
 CREATE TABLE IF NOT EXISTS comments (
@@ -11,6 +11,6 @@ CREATE TABLE IF NOT EXISTS comments (
     entry_id INTEGER,
     author VARCHAR,
     author_comment VARCHAR,
-    date DATETIME,
+    date VARCHAR,
     FOREIGN KEY (entry_id) REFERENCES PUBLIC.blogEntry(id) ON DELETE CASCADE
 );

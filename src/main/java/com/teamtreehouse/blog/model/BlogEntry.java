@@ -22,9 +22,6 @@ public class BlogEntry {
 
     public BlogEntry(String title, String author, String blogPost) {
 
-        commentList = new ArrayList<>();
-        tagSet = new HashSet<>();
-
         this.title = title;
         this.author = author;
         this.blogPost = blogPost;

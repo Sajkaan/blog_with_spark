@@ -19,7 +19,7 @@ public class Sql2oBlogDao implements BlogDao {
 
     @Override
     public void addEntry(BlogEntry blogEntry) throws DaoException {
-        String sql = "INSERT INTO blog_entry (title, author, blogPost) VALUES (:title, :author, : blogPost)";
+        String sql = "INSERT INTO blogEntry (title, author, blogPost) VALUES (:title, :author, :blogPost)";
         try (Connection connection = sql2o.open()){
             int id = (int)connection.createQuery(sql)
                     .bind(blogEntry)

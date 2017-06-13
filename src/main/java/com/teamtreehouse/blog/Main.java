@@ -30,7 +30,7 @@ public class Main {
 
     staticFileLocation("/public");
 
-    String datasource = "jdbc:h2:~/IdeaProjects/blog_with_spark/data/blog.db";
+    String datasource = "jdbc:h2:./blog.db";
 
     Sql2o sql2o = new Sql2o(
             String.format("%s;INIT=RUNSCRIPT from 'classpath:db/init.sql'", datasource),
