@@ -99,12 +99,13 @@ public class Main {
     post("/detail/:slug/comment", (req, res) -> {
       BlogEntry blogEntry = blogDao.findEntryBySlug(req.params("slug"));
       String author = req.queryParams("author");
-      String comment = req.queryParams("comment");
+      String commentText = req.queryParams("comment");
 
       if (author.equals("")) {
         author = "Anonymous";
       }
-/*      blogEntry.addComment(new Comment(author, comment));*/
+      Comment comment = new Comment(blogEntry.getId(),author, commentText);
+      commentDao.addComment(comment);
       res.redirect("/detail/" + blogEntry.getSlug());
       return null;
     });
