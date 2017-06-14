@@ -2,6 +2,7 @@ package com.teamtreehouse.blog.model;
 
 import com.github.slugify.Slugify;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class BlogEntry {
     private String date;
     private List<Comment> commentList;
     private Set<Tag> tagSet;
+    private String slug;
 
     public BlogEntry(String title, String author, String blogPost) {
         this.title = title;
@@ -123,5 +125,16 @@ public class BlogEntry {
         Date date = new Date();
         String dateString = dateFormat.format(date);
         return dateString;
+    }
+
+    public String getSlug() {
+        String slug = "";
+        try {
+            Slugify slugify = new Slugify();
+            slug = slugify.slugify(title);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return slug;
     }
 }

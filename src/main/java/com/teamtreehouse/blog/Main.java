@@ -46,8 +46,8 @@ public class Main {
       }
     });
 
-/*    passwordProtection("/new");
-    passwordProtection("/detail/:slug/edit");*/
+    passwordProtection("/new");
+    passwordProtection("/detail/:slug/edit");
 
     get("/", (req, res) -> {
       Map<String, Object> model = new HashMap<>();
@@ -72,7 +72,7 @@ public class Main {
       return null;
     });
 
-    /*get("/password", (req, res) -> {
+    get("/password", (req, res) -> {
       Map<String, String> model = new HashMap<>();
 
       model.put("flashMessage", captureFlashMessage(req));
@@ -104,7 +104,7 @@ public class Main {
       if (author.equals("")) {
         author = "Anonymous";
       }
-      blogEntry.addComment(new Comment(author, comment));
+/*      blogEntry.addComment(new Comment(author, comment));*/
       res.redirect("/detail/" + blogEntry.getSlug());
       return null;
     });
@@ -130,7 +130,7 @@ public class Main {
 
     post("detail/:slug/edit/delete", (req, res) -> {
       BlogEntry blogEntry = blogDao.findEntryBySlug(req.params("slug"));
-      blogDao.deleteEntry(blogEntry);
+      blogDao.deleteEntry(blogEntry.getId());
       setFlashMessage(req, "Entry deleted.");
       res.redirect("/");
       return null;
@@ -139,7 +139,7 @@ public class Main {
     post("detail/:slug/edit/tag", (req, res) -> {
       BlogEntry blogEntry = blogDao.findEntryBySlug(req.params("slug"));
       String tag = req.queryParams("tag");
-      blogEntry.addTag(new Tag(tag));
+/*      blogEntry.addTag(new Tag(tag));*/
       setFlashMessage(req, "Tag added");
       res.redirect("/");
       return null;
@@ -159,7 +159,7 @@ public class Main {
         res.redirect("/password");
         halt();
       }
-    });*/
+    });
   }
 
   private static void setFlashMessage(Request request, String message) {

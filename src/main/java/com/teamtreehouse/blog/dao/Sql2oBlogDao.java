@@ -50,12 +50,21 @@ public class Sql2oBlogDao implements BlogDao {
     }
 
     @Override
-    public void removeEntryById(int id) throws DaoException {
+    public void deleteEntry(int id) throws DaoException {
         try (Connection connection = sql2o.open()){
             String sql = String.format("DELETE * FROM blogEntry WHERE id = %d", id);
             connection.createQuery(sql).executeUpdate();
         } catch (Sql2oException ex) {
             throw new DaoException(ex, "Problem removing entry");
+        }
+    }
+
+    @Override
+    public BlogEntry findEntryBySlug(String slug) {
+        try (Connection connection = sql2o.open()){
+            return connection.createQuery("SELECT * FROM blogEntry WHERE title = :title")
+                    .addParameter("title", slug)
+                    .executeAndFetchFirst(BlogEntry.class);
         }
     }
 }

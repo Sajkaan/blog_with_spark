@@ -48,7 +48,8 @@ public class Sql2oBlogDaoTest {
 
 
     private BlogEntry newBlogEntry() {
-        return new BlogEntry("The Great Gatsby",
+        return new BlogEntry(
+                "The Great Gatsby",
                 "Scot Fitzgerald",
                 "The Great Gatsby is a 1925 novel written by American author F. Scott " +
                         "Fitzgerald that follows a cast of characters living in the fictional town " +

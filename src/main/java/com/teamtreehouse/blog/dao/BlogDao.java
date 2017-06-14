@@ -13,7 +13,10 @@ public interface BlogDao {
 
     BlogEntry findEntryById(int id);
 
-    void removeEntryById(int id) throws DaoException;
+    void deleteEntry(int id) throws DaoException;
+
+
+    BlogEntry findEntryBySlug(String slug);
 
 
 }
