@@ -98,8 +98,8 @@ public class Main {
       return new ModelAndView(model, "detail.hbs");
     }, new HandlebarsTemplateEngine());
 
-    post("/detail/:slug/comment", (req, res) -> {
-      BlogEntry blogEntry = blogDao.findEntryBySlug(req.params("slug"));
+    post("/detail/:id/:slug/comment", (req, res) -> {
+      BlogEntry blogEntry = blogDao.findEntryById(Integer.parseInt(req.params("id")));
       String author = req.queryParams("author");
       String commentText = req.queryParams("comment");
 
@@ -112,9 +112,10 @@ public class Main {
       return null;
     });
 
-    get("detail/:slug/edit", (req, res) -> {
+    get("detail/:id/:slug/edit", (req, res) -> {
       Map<String, Object> model = new HashMap<>();
-      BlogEntry blogEntry = blogDao.findEntryBySlug(req.params(":slug"));
+      int id = Integer.parseInt(req.params(":id"));
+      BlogEntry blogEntry = blogDao.findEntryById(id);
 
       model.put("blogEntry", blogEntry);
       return new ModelAndView(model, "edit.hbs");
