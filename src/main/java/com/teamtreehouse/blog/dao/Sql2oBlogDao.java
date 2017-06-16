@@ -43,7 +43,7 @@ public class Sql2oBlogDao implements BlogDao {
     @Override
     public BlogEntry findEntryById(int id) {
         try (Connection connection = sql2o.open()) {
-            return connection.createQuery("SELECT * FORM blogEntry WHERE id = :id")
+            return connection.createQuery("SELECT * FROM blogEntry WHERE id  = :id")
                     .addParameter("id", id)
                     .executeAndFetchFirst(BlogEntry.class);
         }

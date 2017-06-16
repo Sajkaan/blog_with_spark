@@ -90,9 +90,11 @@ public class Main {
       return new ModelAndView(model, "new.hbs");
     }, new HandlebarsTemplateEngine());
 
-    get("/detail/:slug", (req, res) -> {
+    get("/detail/:id/:slug", (req, res) -> {
       Map<String, Object> model = new HashMap<>();
-      model.put("blogEntry", blogDao.findEntryBySlug(req.params("slug")));
+      int id = Integer.parseInt(req.params("id"));
+      BlogEntry blogEntry = blogDao.findEntryById(id);
+      model.put("blogEntry", blogEntry);
       return new ModelAndView(model, "detail.hbs");
     }, new HandlebarsTemplateEngine());
 

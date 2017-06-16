@@ -128,10 +128,9 @@ public class BlogEntry {
     }
 
     public String getSlug() {
-        String slug = "";
         try {
             Slugify slugify = new Slugify();
-            slug = slugify.slugify(title);
+            this.slug = slugify.slugify(title);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
