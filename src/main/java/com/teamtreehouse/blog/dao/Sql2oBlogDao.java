@@ -72,7 +72,7 @@ public class Sql2oBlogDao implements BlogDao {
     @Override
     public void deleteEntry(int id) throws DaoException {
         try (Connection connection = sql2o.open()){
-            String sql = String.format("DELETE * FROM blogEntry WHERE id = %d", id);
+            String sql = String.format("DELETE FROM blogEntry WHERE id = %d", id);
             connection.createQuery(sql).executeUpdate();
         } catch (Sql2oException ex) {
             throw new DaoException(ex, "Problem removing entry");

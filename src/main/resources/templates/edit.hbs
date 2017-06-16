@@ -29,7 +29,7 @@
                 </div>
 
                 <div class="container">
-                    <form class="delete" action="/detail/{{ blogEntry.slug }}/edit/delete"
+                    <form class="delete" action="/detail/{{ blogEntry.id }}/{{ blogEntry.slug }}/edit/delete"
                           method="post">
                         <input type="submit" value="Delete Entry" class="button-delete">
                     </form>

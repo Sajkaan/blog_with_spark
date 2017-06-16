@@ -134,22 +134,22 @@ public class Main {
       return null;
     });
 
-    post("detail/:slug/edit/delete", (req, res) -> {
-      BlogEntry blogEntry = blogDao.findEntryBySlug(req.params("slug"));
+    post("detail/:id/:slug/edit/delete", (req, res) -> {
+      BlogEntry blogEntry = blogDao.findEntryById(Integer.parseInt(req.params("id")));
       blogDao.deleteEntry(blogEntry.getId());
       setFlashMessage(req, "Entry deleted.");
       res.redirect("/");
       return null;
     });
 
-    post("detail/:slug/edit/tag", (req, res) -> {
+/*    post("detail/:slug/edit/tag", (req, res) -> {
       BlogEntry blogEntry = blogDao.findEntryBySlug(req.params("slug"));
       String tag = req.queryParams("tag");
-/*      blogEntry.addTag(new Tag(tag));*/
+*//*      blogEntry.addTag(new Tag(tag));*//*
       setFlashMessage(req, "Tag added");
       res.redirect("/");
       return null;
-    });
+    });*/
   }
 
   private static void passwordProtection(String path) {
