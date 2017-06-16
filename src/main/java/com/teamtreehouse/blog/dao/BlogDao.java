@@ -17,7 +17,5 @@ public interface BlogDao {
 
     void deleteEntry(int id) throws DaoException;
 
-    BlogEntry findEntryBySlug(String slug);
-
 
 }

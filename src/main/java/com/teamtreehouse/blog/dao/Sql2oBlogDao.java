@@ -79,12 +79,4 @@ public class Sql2oBlogDao implements BlogDao {
         }
     }
 
-    @Override
-    public BlogEntry findEntryBySlug(String slug) {
-        try (Connection connection = sql2o.open()){
-            return connection.createQuery("SELECT * FROM blogEntry WHERE title = :title")
-                    .addParameter("title", slug)
-                    .executeAndFetchFirst(BlogEntry.class);
-        }
-    }
 }
