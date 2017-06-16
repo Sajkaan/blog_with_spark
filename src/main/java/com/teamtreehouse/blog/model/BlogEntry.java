@@ -84,12 +84,11 @@ public class BlogEntry {
         this.commentList = commentList;
     }
 
-    public Set<Tag> getTagSet() {
-        return tagSet;
-    }
-
-    public void setTagSet(Set<Tag> tagSet) {
-        this.tagSet = tagSet;
+    public String getSlugFromTitle() {
+        String slug = "";
+        Slugify slugify = new Slugify();
+        slug = slugify.slugify(title);
+        return slug;
     }
 
     @Override

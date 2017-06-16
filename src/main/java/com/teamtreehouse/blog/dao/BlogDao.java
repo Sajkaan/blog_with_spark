@@ -9,12 +9,13 @@ public interface BlogDao {
 
     void addEntry(BlogEntry blogEntry) throws DaoException;
 
+    void editEntry(BlogEntry blogEntry) throws DaoException;
+
     List<BlogEntry> findAllEntries();
 
     BlogEntry findEntryById(int id);
 
     void deleteEntry(int id) throws DaoException;
-
 
     BlogEntry findEntryBySlug(String slug);
 

@@ -33,6 +33,26 @@ public class Sql2oBlogDao implements BlogDao {
     }
 
     @Override
+    public void editEntry(BlogEntry blogEntry) throws DaoException {
+        String sql =
+                "UPDATE blogEntry SET " +
+                        "title = :title," +
+                        "author = :author," +
+                        "blogPost = :blogPost," +
+                        "date = :date " +
+                        "WHERE id = :id";
+        try (Connection connection = sql2o.open()){
+            connection.createQuery(sql)
+                    .bind(blogEntry)
+                    .executeUpdate();
+
+        } catch (Sql2oException ex) {
+            throw new DaoException(ex, "Problem updating entry");
+        }
+    }
+
+
+    @Override
     public List<BlogEntry> findAllEntries() {
         try (Connection connection = sql2o.open()){
             return connection.createQuery("SELECT * FROM blogEntry")

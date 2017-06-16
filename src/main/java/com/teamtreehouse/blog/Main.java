@@ -99,7 +99,8 @@ public class Main {
     }, new HandlebarsTemplateEngine());
 
     post("/detail/:id/:slug/comment", (req, res) -> {
-      BlogEntry blogEntry = blogDao.findEntryById(Integer.parseInt(req.params("id")));
+      int id = Integer.parseInt(req.params("id"));
+      BlogEntry blogEntry = blogDao.findEntryById(id);
       String author = req.queryParams("author");
       String commentText = req.queryParams("comment");
 
@@ -121,13 +122,14 @@ public class Main {
       return new ModelAndView(model, "edit.hbs");
     }, new HandlebarsTemplateEngine());
 
-    post("detail/:slug/edit", (req, res) -> {
-      BlogEntry blogEntry = blogDao.findEntryBySlug(req.params(":slug"));
+    post("detail/:id/:slug/edit", (req, res) -> {
+      BlogEntry blogEntry = blogDao.findEntryById(Integer.parseInt(req.params("id")));
       String title = req.queryParams("title");
       String author = req.queryParams("author");
       String entry = req.queryParams("entry");
       setFlashMessage(req, "Entry updated");
       blogEntry.editEntry(title, author, entry);
+      blogDao.editEntry(blogEntry);
       res.redirect("/");
       return null;
     });
