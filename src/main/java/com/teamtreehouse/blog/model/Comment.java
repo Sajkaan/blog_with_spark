@@ -37,6 +37,10 @@ public class Comment {
     return comment;
   }
 
+  public String getDate() {
+    return date;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

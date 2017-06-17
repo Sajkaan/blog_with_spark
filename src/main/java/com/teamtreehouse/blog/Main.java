@@ -14,7 +14,9 @@ import com.teamtreehouse.blog.model.BlogEntry;
 import com.teamtreehouse.blog.model.Comment;
 import com.teamtreehouse.blog.model.Tag;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.sql2o.Sql2o;
@@ -94,6 +96,7 @@ public class Main {
       Map<String, Object> model = new HashMap<>();
       int id = Integer.parseInt(req.params("id"));
       BlogEntry blogEntry = blogDao.findEntryById(id);
+
       model.put("blogEntry", blogEntry);
       return new ModelAndView(model, "detail.hbs");
     }, new HandlebarsTemplateEngine());
@@ -109,7 +112,9 @@ public class Main {
       }
       Comment comment = new Comment(blogEntry.getId(),author, commentText);
       commentDao.addComment(comment);
-      res.redirect("/detail/" + blogEntry.getSlug());
+
+      String url = String.format("/detail/%s/%s", blogEntry.getId(), blogEntry.getSlug());
+      res.redirect(url);
       return null;
     });
 

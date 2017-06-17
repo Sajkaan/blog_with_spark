@@ -19,10 +19,13 @@ public class Sql2oCommentDao implements CommentDao {
     @Override
     public void addComment(Comment comment) throws DaoException {
         try (Connection connection = sql2o.open()){
-            String sqlQuery = "INSERT INTO comments (entry_id, author, author_comment) " +
-                    "VALUES (:entry_id, :author, :author_comment)";
+            String sqlQuery = "INSERT INTO comments (entry_id, author, author_comment, date) " +
+                    "VALUES (:entry_id, :author, :author_comment, :date)";
             int id = (int) connection.createQuery(sqlQuery)
-                    .bind(comment)
+                    .addParameter("entry_id", comment.getEntryId())
+                    .addParameter("author", comment.getAuthor())
+                    .addParameter("author_comment", comment.getComment())
+                    .addParameter("date", comment.getDate())
                     .executeUpdate()
                     .getKey();
             comment.setId(id);
